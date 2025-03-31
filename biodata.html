@@ -9,7 +9,7 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f8f8f8;
+            background-color: #f8f9fc;
             text-align: center;
         }
         .container {
@@ -17,51 +17,103 @@
             margin: auto;
             background: white;
             padding: 20px;
+            border-radius: 10px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
         header {
             display: flex;
             justify-content: space-between;
-            padding: 10px;
-            border-bottom: 1px solid #ccc;
+            align-items: center;
+            padding: 15px;
+            background: #007bff;
+            color: white;
+            border-radius: 10px 10px 0 0;
+        }
+        nav a {
+            color: white;
+            margin: 0 10px;
+            text-decoration: none;
+            font-weight: bold;
         }
         .content {
-            display: flex;
-            justify-content: space-between;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             align-items: center;
             padding: 20px 0;
         }
         .content img {
-            width: 600px;
-            height: 400px;
-            background: #ccc;
-        }
-        table {
             width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
+            max-width: 500px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
         }
-        table, th, td {
-            border: 1px solid #ccc;
+        .content h2 {
+            color: #007bff;
+        }
+        .button {
+            display: inline-block;
+            background: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .biodata {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+            padding: 15px;
+            background: #e9f2ff;
+            border-radius: 10px;
+        }
+        .biodata div {
+            background: white;
             padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+            font-weight: bold;
         }
         .portfolio {
-            display: flex;
-            justify-content: space-between;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
             margin-top: 20px;
         }
         .portfolio div {
-            width: 32%;
+            background: white;
             padding: 10px;
-            border: 1px solid #ccc;
-            background: #f0f0f0;
+            border-radius: 10px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+        }
+        .portfolio img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        footer {
+            margin-top: 20px;
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            border-radius: 0 0 10px 10px;
+        }
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .biodata {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <div>Brand</div>
+            <div><strong>Brand</strong></div>
             <nav>
                 <a href="#">Header</a> | <a href="#">Biodata</a> | <a href="#">Portfolio</a>
             </nav>
@@ -70,45 +122,45 @@
         <div class="content">
             <div>
                 <h2>Selamat Datang di Website Saya</h2>
-                <p>Ini adalah contoh header dengan dua kolom.</p>
+                <p>Ini adalah contoh header dengan dua kolom. Kolom kiri berisi teks seperti ini.</p>
+                <a href="#" class="button">Pelajari Lebih Lanjut</a>
             </div>
-            <img src="https://via.placeholder.com/600x400" alt="Gambar Placeholder">
+            <img src="https://img.freepik.com/free-photo/young-handsome-man-smiling-camera_144627-58455.jpg" alt="Foto dari Freepik">
         </div>
         
         <h2>About Me</h2>
         <p>A brief introduction about myself</p>
-        
-        <table>
-            <tr>
-                <td>Full Name</td>
-                <td>Education</td>
-                <td>Occupation</td>
-            </tr>
-            <tr>
-                <td>Contact</td>
-                <td>Hobi</td>
-                <td>Alamat</td>
-            </tr>
-        </table>
+        <div class="biodata">
+            <div>Full Name: Dodi</div>
+            <div>Education: S1 Informatika</div>
+            <div>Pekerjaan: Programmer</div>
+            <div>Contact: dodi@example.com</div>
+            <div>Hobi: Membaca, Coding</div>
+            <div>Alamat: Jakarta</div>
+        </div>
         
         <h2>Portofolio</h2>
         <div class="portfolio">
             <div>
-                <img src="https://via.placeholder.com/350x200" alt="Project 1">
+                <img src="https://img.freepik.com/free-photo/modern-flat-lay-workspace_23-2148879752.jpg" alt="Project 1">
                 <h3>Proyek 1</h3>
                 <p>Deskripsi proyek 1.</p>
             </div>
             <div>
-                <img src="https://via.placeholder.com/350x200" alt="Project 2">
+                <img src="https://img.freepik.com/free-photo/laptop-coffee-mug-notebook_53876-32627.jpg" alt="Project 2">
                 <h3>Proyek 2</h3>
                 <p>Deskripsi proyek 2.</p>
             </div>
             <div>
-                <img src="https://via.placeholder.com/350x200" alt="Project 3">
+                <img src="https://img.freepik.com/free-photo/colorful-web-design-mockup_23-2148802547.jpg" alt="Project 3">
                 <h3>Proyek 3</h3>
                 <p>Deskripsi proyek 3.</p>
             </div>
         </div>
+        
+        <footer>
+            &copy; 2024 Dodi. All rights reserved.
+        </footer>
     </div>
 </body>
 </html>

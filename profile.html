@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Biodata</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fc;
+        }
+        .container {
+            max-width: 900px;
+        }
+        .profile-img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+        .carousel-item img {
+            width: 100%;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container bg-white p-4 rounded shadow mt-4">
+        <header class="d-flex justify-content-between align-items-center bg-primary text-white p-3 rounded">
+            <div><i class="fas fa-user-circle"></i> <strong>Brand</strong></div>
+            <nav>
+                <a href="#" class="text-white text-decoration-none me-3"><i class="fas fa-home"></i> Header</a>
+                <a href="#" class="text-white text-decoration-none me-3"><i class="fas fa-id-card"></i> Biodata</a>
+                <a href="#" class="text-white text-decoration-none"><i class="fas fa-briefcase"></i> Portfolio</a>
+            </nav>
+        </header>
+        
+        <div class="row my-4 align-items-center">
+            <div class="col-md-6">
+                <h2 class="text-primary">Selamat Datang di Website Saya</h2>
+                <p>Ini adalah contoh header dengan dua kolom. Kolom kiri berisi teks seperti ini.</p>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#infoModal"><i class="fas fa-info-circle"></i> Pelajari Lebih Lanjut</button>
+            </div>
+            <div class="col-md-6 text-center">
+                <img src="https://img.freepik.com/free-photo/young-handsome-man-smiling-camera_144627-58455.jpg" class="profile-img" alt="Foto dari Freepik">
+            </div>
+        </div>
+        
+        <h2 class="text-center">About Me</h2>
+        <p class="text-center">A brief introduction about myself</p>
+        <div class="row text-center bg-light p-3 rounded">
+            <div class="col-md-4"><strong><i class="fas fa-user"></i> Full Name:</strong> Dodi</div>
+            <div class="col-md-4"><strong><i class="fas fa-graduation-cap"></i> Education:</strong> S1 Informatika</div>
+            <div class="col-md-4"><strong><i class="fas fa-briefcase"></i> Pekerjaan:</strong> Programmer</div>
+            <div class="col-md-4 mt-2"><strong><i class="fas fa-envelope"></i> Contact:</strong> dodi@example.com</div>
+            <div class="col-md-4 mt-2"><strong><i class="fas fa-heart"></i> Hobi:</strong> Membaca, Coding</div>
+            <div class="col-md-4 mt-2"><strong><i class="fas fa-map-marker-alt"></i> Alamat:</strong> Jakarta</div>
+        </div>
+        
+        <h2 class="text-center my-4">Portofolio</h2>
+        <div id="portfolioCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="https://img.freepik.com/free-photo/modern-flat-lay-workspace_23-2148879752.jpg" alt="Project 1">
+                </div>
+                <div class="carousel-item">
+                    <img src="https://img.freepik.com/free-photo/laptop-coffee-mug-notebook_53876-32627.jpg" alt="Project 2">
+                </div>
+                <div class="carousel-item">
+                    <img src="https://img.freepik.com/free-photo/colorful-web-design-mockup_23-2148802547.jpg" alt="Project 3">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#portfolioCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#portfolioCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            </button>
+        </div>
+        
+        <footer class="text-center bg-primary text-white p-2 mt-4 rounded">
+            <i class="fas fa-copyright"></i> 2024 Dodi. All rights reserved.
+        </footer>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="infoModalLabel"><i class="fas fa-info-circle"></i> Informasi Lebih Lanjut</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Ini adalah modal popup untuk informasi lebih lanjut mengenai proyek dan biodata saya.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
