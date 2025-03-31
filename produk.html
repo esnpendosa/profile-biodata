@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce Produk</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        #product-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .product {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px;
+            width: 200px;
+        }
+
+        .product img {
+            width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Daftar Produk</h1>
+    <select id="categoryFilter">
+        <option value="all">Semua Kategori</option>
+        <option value="elektronik">Elektronik</option>
+        <option value="pakaian">Pakaian</option>
+    </select>
+
+    <div id="product-list"></div>
+
+    <script>
+        const products = [
+            { name: "Laptop", price: 10000000, description: "Laptop gaming", image: "https://via.placeholder.com/150", category: "elektronik" },
+            { name: "Kaos", price: 100000, description: "Kaos cotton", image: "https://via.placeholder.com/150", category: "pakaian" }
+        ];
+
+        function displayProducts(filteredProducts) {
+            const productList = document.getElementById("product-list");
+            productList.innerHTML = ""; // Hapus produk sebelumnya
+
+            filteredProducts.forEach(product => {
+                const productDiv = document.createElement("div");
+                productDiv.classList.add("product");
+                productDiv.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <p>${product.description}</p>
+                    <p>Rp ${product.price.toLocaleString()}</p>
+                `;
+                productList.appendChild(productDiv);
+            });
+        }
+
+        // Menampilkan semua produk saat halaman dimuat
+        displayProducts(products);
+
+        // Filter berdasarkan kategori
+        document.getElementById("categoryFilter").addEventListener("change", function () {
+            const category = this.value;
+            if (category === "all") {
+                displayProducts(products);
+            } else {
+                const filtered = products.filter(p => p.category === category);
+                displayProducts(filtered);
+            }
+        });
+    </script>
+</body>
+</html>
