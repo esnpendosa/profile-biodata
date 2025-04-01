@@ -1,124 +1,147 @@
 <?php
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$error = "";
-$nama_produk = $harga = $deskripsi = $stok = "";
+// Koneksi ke database
+$servername = "localhost";
+$username = "root"; // Sesuaikan dengan username database Anda
+$password = ""; // Sesuaikan dengan password database Anda
+$dbname = "ecommerce";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Validasi input
-    if (empty($_POST["nama_produk"]) || empty($_POST["harga"]) || empty($_POST["deskripsi"]) || empty($_POST["stok"])) {
-        $error = "Semua bidang harus diisi!";
-    } else {
-        // Sanitasi input
-        $nama_produk = htmlspecialchars($_POST["nama_produk"]);
-        $harga = (float)$_POST["harga"];
-        $deskripsi = htmlspecialchars($_POST["deskripsi"]);
-        $stok = (int)$_POST["stok"];
+// Membuat koneksi
+$conn = new mysqli($servername, $username, $password, $dbname);
 
-        // Koneksi database
-        $conn = new mysqli("localhost", "root", "", "ecommerce");
-        
-        if ($conn->connect_error) {
-            die("Koneksi database gagal: " . $conn->connect_error);
-        }
-
-        // Prepared statement
-        $stmt = $conn->prepare("INSERT INTO products (nama_produk, harga, deskripsi, stok) VALUES (?, ?, ?, ?)");
-        
-        if (!$stmt) {
-            die("Error preparing statement: " . $conn->error);
-        }
-
-        // Bind parameter (sesuaikan dengan tipe data di database)
-        $stmt->bind_param("sdis", $nama_produk, $harga, $deskripsi, $stok);
-
-        if ($stmt->execute()) {
-            echo "<div style='color:green; padding:10px; border:1px solid green; margin:10px;'>
-                    Produk berhasil ditambahkan!
-                  </div>";
-        } else {
-            $error = "Error: " . $stmt->error;
-        }
-
-        $stmt->close();
-        $conn->close();
-    }
+// Cek koneksi
+if ($conn->connect_error) {
+    die("Koneksi gagal: " . $conn->connect_error);
 }
+
+// Fungsi untuk mendapatkan produk berdasarkan kategori
+function getProducts($kategori = null) {
+    global $conn;
+    
+    if (!empty($kategori)) {
+        $sql = "SELECT * FROM products WHERE kategori = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $kategori);
+    } else {
+        $sql = "SELECT * FROM products";
+        $stmt = $conn->prepare($sql);
+    }
+    
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    return $result->fetch_all(MYSQLI_ASSOC);
+}
+
+// Ambil kategori dari URL
+$selectedKategori = $_GET['kategori'] ?? "";
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-    <title>Tambah Produk</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toko Online</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
         .container {
-            max-width: 600px;
+            max-width: 1200px;
             margin: 20px auto;
             padding: 20px;
-            font-family: Arial, sans-serif;
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
-        .form-group {
-            margin-bottom: 15px;
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
         }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        input, textarea {
-            width: 100%;
-            padding: 8px;
+        .product-card {
             border: 1px solid #ddd;
-            border-radius: 4px;
+            padding: 15px;
+            border-radius: 5px;
+            background: #fff;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out;
         }
-        .error {
-            color: red;
+        .product-card:hover {
+            transform: scale(1.05);
+        }
+        .price {
+            color: #2ecc71;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .category {
+            color: #666;
+            font-size: 0.9em;
+        }
+        .filter-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 5px;
+        }
+        select, button {
             padding: 10px;
-            border: 1px solid red;
-            margin-bottom: 15px;
-        }
-        button {
-            background: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Tambah Produk</h2>
+        <h2>Daftar Produk</h2>
         
-        <?php if (!empty($error)): ?>
-            <div class="error"><?php echo $error; ?></div>
-        <?php endif; ?>
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <form method="GET">
+                <label>Filter Kategori:</label>
+                <select name="kategori">
+                    <option value="">Semua Kategori</option>
+                    <option value="Elektronik" <?= $selectedKategori === 'Elektronik' ? 'selected' : '' ?>>Elektronik</option>
+                    <option value="Pakaian" <?= $selectedKategori === 'Pakaian' ? 'selected' : '' ?>>Pakaian</option>
+                    <option value="Makanan" <?= $selectedKategori === 'Makanan' ? 'selected' : '' ?>>Makanan</option>
+                </select>
+                <button type="submit">Filter</button>
+            </form>
+        </div>
 
-        <form method="post" action="">
-            <div class="form-group">
-                <label>Nama Produk:</label>
-                <input type="text" name="nama_produk" value="<?php echo htmlspecialchars($nama_produk); ?>" required>
-            </div>
+        <!-- Product Grid -->
+        <div class="product-grid">
+            <?php
+            $products = getProducts($selectedKategori);
             
-            <div class="form-group">
-                <label>Harga:</label>
-                <input type="number" name="harga" step="100" value="<?php echo htmlspecialchars($harga); ?>" required>
-            </div>
-            
-            <div class="form-group">
-                <label>Deskripsi:</label>
-                <textarea name="deskripsi" required><?php echo htmlspecialchars($deskripsi); ?></textarea>
-            </div>
-            
-            <div class="form-group">
-                <label>Stok:</label>
-                <input type="number" name="stok" value="<?php echo htmlspecialchars($stok); ?>" required>
-            </div>
-            
-            <button type="submit">Tambah Produk</button>
-        </form>
+            if (!empty($products)) {
+                foreach ($products as $product) {
+                    echo '
+                    <div class="product-card">
+                        <h3>'.$product['nama_produk'].'</h3>
+                        <div class="category">Kategori: '.$product['kategori'].'</div>
+                        <div class="price">Rp '.number_format($product['harga'], 0, ',', '.').'</div>
+                        <p>'.$product['deskripsi'].'</p>
+                        <div>Stok: '.$product['stok'].'</div>
+                    </div>';
+                }
+            } else {
+                echo '<p>Tidak ada produk ditemukan.</p>';
+            }
+            ?>
+        </div>
     </div>
 </body>
 </html>
+
+<?php
+// Tutup koneksi database
+$conn->close();
+?>
